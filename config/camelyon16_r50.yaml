@@ -1,0 +1,54 @@
+data:
+  # Directory with the precomputed patch features (.h5) or raw patch bytes (.pkl).
+  directory: ./data/CAMELYON16/features-r50
+  dataset_splits: ./data/CAMELYON16/CAMELYON16_split_train_val_test.csv
+  dataset_labels: ./data/CAMELYON16/CAMELYON16_all_labels.csv
+  dataset_column: 20.0x_patches
+
+  max_length: -1
+  batch_size: 1
+  use_weighted_sampler: true
+
+model:
+  name: MMPL
+  backbone: "None"  # "None" (precomputed features) | "ResNet50" | "UNI"
+  input_dim: 1024
+  hidden_dim: 512
+  attn_dim: 256
+  attn_dropout_rate: 0.25
+  input_dropout_rate: 0.0
+  retrieval_dropout_rate: 0.0
+
+  num_prototypes: 15
+  retrieve_k: 100
+  num_classes: 2
+
+  queue_size: 150000
+  max_queue_update_ratio: 1.0
+  temperature: 0.1
+
+  encoder_batch_size: 8
+  sinkhorn_weight: 0.1
+  ema_decay: 0.0
+
+optim:
+  mil_lr: 1e-4
+  encoder_lr: 1e-5
+  weight_decay: 1e-4
+  reduce_factor: 0.5
+  reduce_patience: 10
+  reduce_after: 100
+
+experiment:
+  seed: 0
+  max_epochs: 100
+  save_metric: val/weighted_f1
+  save_mode: max
+  directory: results
+  resume: false
+
+wandb:
+  use: false
+  project: MMPL-MIL
+  name: camelyon16-r50-seed{seed}
+  dir: null
