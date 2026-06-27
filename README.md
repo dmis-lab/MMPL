@@ -1,5 +1,5 @@
 # MMPL
-Momentum Morphological Prototype Learning for Patch Search in Whole Slide Images
+Marginal Constrained Morphological Prototype Learning for Patch Search in Whole Slide Images
 
 ## Repository structure
 
